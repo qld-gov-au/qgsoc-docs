@@ -33,7 +33,7 @@ plugins:
 extra:
   social:
     - icon: fontawesome/regular/envelope
-      link: mailto:DLQGCDC@citec.qld.gov.au
+      link: CyberDefenceCentre@cyber.qld.gov.au
   generator: false # Removes "Made with Material for MkDocs notice"
 
 copyright: Copyright &copy; 2025 Queensland Government
