@@ -1,0 +1,51 @@
+site_name: QGSOC Knowledge Base
+site_url: https://soc.cyber.qld.gov.au
+repo_url: https://github.com/qld-gov-au/qgsoc-docs
+site_description: "Homepage for the Queensland Government SOC"
+
+theme:
+  name: material
+  palette:
+      primary: custom
+      scheme: default
+  features:
+    - navigation.tabs # Header navigation 
+    - navigation.tabs.sticky # Lock webiste menu
+    - navigation.top # Back to top button
+    - navigation.indexes # Section index page
+    - navigation.tracking # Automatically update with the active anchor highlighted in the table of contents
+    - navigation.sections # Render top-level sections as groups in the sidebar
+  logo: assets/Qld-CoA-Stylised-1L-online-mono-rev.png # Queensland Government Logo
+
+  font:
+    text: "Noto Sans"
+
+nav:
+  - Home: 
+    - index.md
+
+  - Best Practices: 
+    - best-practices/sentinel.md
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/regular/envelope
+      link: mailto:DLQGCDC@citec.qld.gov.au
+  generator: false # Removes "Made with Material for MkDocs notice"
+
+copyright: Copyright &copy; 2025 Queensland Government
+
+markdown_extensions:
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
+  - admonition # Admonitions
+  - abbr # Abbreviations 
+  - toc:
+      permalink: true
+
+extra_css:
+  - css/stylesheet.css
