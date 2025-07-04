@@ -1,0 +1,3724 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Homepage for the Queensland Government SOC">
+      
+      
+      
+        <link rel="canonical" href="https://soc.cyber.qld.gov.au/best-practices/sentinel/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Best Practices: Log Management for Microsoft Sentinel - QGSOC Knowledge Base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/stylesheet.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#best-practices-log-management-for-microsoft-sentinel" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="QGSOC Knowledge Base" class="md-header__button md-logo" aria-label="QGSOC Knowledge Base" data-md-component="logo">
+      
+  <img src="../../assets/Qld-CoA-Stylised-1L-online-mono-rev.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            QGSOC Knowledge Base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Best Practices: Log Management for Microsoft Sentinel
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/qld-gov-au/qgsoc-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Best Practices
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="QGSOC Knowledge Base" class="md-nav__button md-logo" aria-label="QGSOC Knowledge Base" data-md-component="logo">
+      
+  <img src="../../assets/Qld-CoA-Stylised-1L-online-mono-rev.png" alt="logo">
+
+    </a>
+    QGSOC Knowledge Base
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/qld-gov-au/qgsoc-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Best Practices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Best Practices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Best Practices: Log Management for Microsoft Sentinel
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Best Practices: Log Management for Microsoft Sentinel
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executive Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audience-and-the-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      Audience and the objective
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-source-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data source identification
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data source identification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-prioritise-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identify and prioritise data sources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operational-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operational logs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#collection-and-ingestion-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collection and ingestion management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Collection and ingestion management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filtering-at-the-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtering at the Source
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-normalisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data normalisation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#track-and-optimise-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Track and optimise ingestion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ingestion-delay-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingestion delay mitigation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avoid-single-point-of-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avoid Single Point of Failure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-quality-and-integrity-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Log Quality and Integrity Considerations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retention-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retention management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cost-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cost management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cost management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ingestion-cost-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingestion cost management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retention-cost-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retention cost management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data security
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-control-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access Control Measures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-protection-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Protection Measures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosting-azure-log-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hosting Azure Log Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-qualification-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Qualification checklist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-log-type-and-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Log Type and Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Log Type and Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analytics-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analytics Logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auxiliary-logs-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auxiliary Logs (Preview)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-system-priority-for-log-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: System priority for log collection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-log-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Log categories
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-windows-event-id-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Windows Event ID Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-windows-event-id-inclusion-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Windows Event ID inclusion recommendation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-windows-event-id-exclusion-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Windows Event ID exclusion recommendation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-log-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Log sources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Log sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-connectors-and-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Connectors and tables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-sources-available-with-microsoft-benefit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Log Sources available with Microsoft Benefit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-billable-data-sentinel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Billable Data -- Sentinel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-billable-data-microsoft-365-e5-customers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Billable Data -- Microsoft 365 E5 customers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#billable-data-sentinel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Billable Data -- Sentinel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-sentinel-pricing-tiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Sentinel Pricing Tiers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-retention-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Retention options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-knowledge-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Knowledge base
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-national-and-qg-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: National and QG guidelines
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executive Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audience-and-the-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      Audience and the objective
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-source-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data source identification
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data source identification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-and-prioritise-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identify and prioritise data sources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operational-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operational logs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#collection-and-ingestion-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Collection and ingestion management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Collection and ingestion management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filtering-at-the-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtering at the Source
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-normalisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data normalisation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#track-and-optimise-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Track and optimise ingestion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ingestion-delay-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingestion delay mitigation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avoid-single-point-of-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avoid Single Point of Failure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-quality-and-integrity-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Log Quality and Integrity Considerations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retention-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retention management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cost-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cost management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cost management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ingestion-cost-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingestion cost management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retention-cost-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retention cost management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data security
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-control-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access Control Measures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-protection-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Protection Measures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosting-azure-log-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hosting Azure Log Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-qualification-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Qualification checklist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-log-type-and-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Log Type and Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Log Type and Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analytics-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analytics Logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Logs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auxiliary-logs-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auxiliary Logs (Preview)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-system-priority-for-log-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: System priority for log collection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-log-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Log categories
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-windows-event-id-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Windows Event ID Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-windows-event-id-inclusion-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Windows Event ID inclusion recommendation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-windows-event-id-exclusion-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Windows Event ID exclusion recommendation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-log-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Log sources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Log sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-connectors-and-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Connectors and tables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-sources-available-with-microsoft-benefit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Log Sources available with Microsoft Benefit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-billable-data-sentinel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Billable Data -- Sentinel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#non-billable-data-microsoft-365-e5-customers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Billable Data -- Microsoft 365 E5 customers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#billable-data-sentinel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Billable Data -- Sentinel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-sentinel-pricing-tiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Sentinel Pricing Tiers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-retention-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Retention options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-knowledge-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: Knowledge base
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-national-and-qg-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Appendix: National and QG guidelines
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="best-practices-log-management-for-microsoft-sentinel">Best Practices: Log Management for Microsoft Sentinel<a class="headerlink" href="#best-practices-log-management-for-microsoft-sentinel" title="Permanent link">&para;</a></h1>
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
+<p>Effective log management enables organisations to detect threats, ensure
+compliance, and optimise operational resilience. This Log Management
+Best Practices for Microsoft Sentinel provides comprehensive guidance
+for security specialists, government agencies, and professionals in
+security-related roles to maximise the capabilities of Microsoft
+Sentinel (SIEM) platform. It outlines strategic approaches for managing
+log ingestion, retention, search, cost, and source configurations within
+Sentinel's Log Analytics Workspace.</p>
+<p>The guide recommends the ingestion management strategies by prioritising
+high-value log sources, such as identity systems and network devices,
+while applying granular filtering to minimise irrelevant data. It
+includes recommendations from ASD for priority log collection. It
+incorporates key categories such as authentication, endpoint, network,
+cloud activity, and email security to support detection and compliance
+outcomes.</p>
+<p>Retention policies should balance regulatory requirements, such as local
+and federal government mandates, with operational needs, leveraging
+tiered storage and archiving for efficiency. Search practices are
+optimised through precise Kusto Query Language (KQL) queries and
+proactive analytics rules to enhance incident response.</p>
+<p>Cost management strategies include monitoring usage, selecting
+appropriate storage tiers, and conducting regular reviews to align with
+budgetary constraints. Additionally, log source management emphasises
+separate workspaces for security and operational logs, role-based access
+controls, and continuous monitoring to maintain data integrity and
+compliance.</p>
+<p>Implementing these practices enables organisations to enhance their
+cybersecurity resilience, streamline adherence to national and global
+regulatory requirements, and optimise resource utilisation. This
+document offers a valuable framework for security teams and government
+institutions seeking to safeguard vital infrastructure while upholding
+operational efficiency in an ever-evolving threat environment.</p>
+<h2 id="audience-and-the-objective">Audience and the objective<a class="headerlink" href="#audience-and-the-objective" title="Permanent link">&para;</a></h2>
+<p>This guide is designed for security specialists, government agencies,
+and professionals in security-related roles responsible for managing and
+securing IT environments.</p>
+<p>Its objective is to provide structured, actionable guidance on
+optimising log ingestion, retention, search, cost, and source management
+within Microsoft Sentinel's Log Analytics Workspace.</p>
+<p>By offering practical strategies, the document aims to empower
+organisations to enhance their cybersecurity resilience, ensure
+compliance with national and international standards, and manage
+resources efficiently, thereby safeguarding critical infrastructure in a
+dynamic threat landscape.</p>
+<h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
+<p>Log management covers a wide range of practices across different
+platforms and data sources. This guide focuses specifically on log
+management within the context of Microsoft Sentinel. It outlines best
+practices in the following key areas:</p>
+<ul>
+<li>
+<p>Data source identification</p>
+</li>
+<li>
+<p>Collection and ingestion management</p>
+</li>
+<li>
+<p>Retention management</p>
+</li>
+<li>
+<p>Cost management</p>
+</li>
+<li>
+<p>Data security</p>
+</li>
+</ul>
+<p>The Azure Well-Architected Framework offers guiding principles to help
+improve the quality, reliability, and security of workloads. This guide
+follows its five pillars to support best-practice log management in
+Microsoft Sentinel.</p>
+<ol>
+<li>
+<p>Reliability</p>
+</li>
+<li>
+<p>Security</p>
+</li>
+<li>
+<p>Cost Optimisation</p>
+</li>
+<li>
+<p>Operational Excellence</p>
+</li>
+<li>
+<p>Performance Efficiency</p>
+</li>
+</ol>
+<p>Implementing the key practices outlined in the following subsections
+will enable security specialists and government agencies to ensure a
+secure and compliant environment.</p>
+<h2 id="data-source-identification">Data source identification<a class="headerlink" href="#data-source-identification" title="Permanent link">&para;</a></h2>
+<p>Identifying the right data sources is a key step in setting up an
+effective log management strategy in Microsoft Sentinel. Choosing the
+correct sources ensures that important activities across the environment
+are visible and can be monitored for threats, compliance, and
+operational insights.</p>
+<p>Microsoft provide three types of log types including recently
+introducing Auxiliary logs. Refer to <a href="#_Appendix:_Log_types">Appendix: Log Type and
+Usage</a> for more information.</p>
+<h3 id="identify-and-prioritise-data-sources">Identify and prioritise data sources<a class="headerlink" href="#identify-and-prioritise-data-sources" title="Permanent link">&para;</a></h3>
+<p>Choosing and prioritising the right data sources is a key step in
+effective log management and keep systems safe and meet compliance
+requirements. Not all logs hold the same value, and prioritising what to
+ingest first helps ensure visibility over the most important systems,
+supports compliance, and manages costs effectively.</p>
+<ol>
+<li>
+<p>Focus on high-risk, high-value and fast rotating logs that provide
+    early visibility into security events. These include firewall deny
+    logs, VPN activity, and intrusion alerts, which offer critical
+    insight into potential threats and are often lost quickly if not
+    collected in real time. Prioritising these logs supports effective
+    threat detection and compliance without unnecessary cost.</p>
+</li>
+<li>
+<p>Begin with default security logs, especially those that cover
+    authentication, usage of privileged accounts, and endpoint alerts.
+    These are key for both real-time monitoring and investigation.</p>
+</li>
+<li>
+<p>Prioritise native connectors like Azure Activity for Azure
+    operations, Microsoft Entra ID (Azure AD) for user login tracking,
+    Microsoft 365 Defender for threat alerts, and Defender for Endpoint
+    for device protection, as these provide critical security insights
+    with minimal or no cost.</p>
+</li>
+<li>
+<p>Include additional sources like firewalls network alerts, VPN logs
+    for remote access visibility and system logs from both Windows and
+    Linux servers, whether hosted in Azure or on-premises. For Windows,
+    prioritise Security event logs (e.g. logon attempts, group changes).
+    For Linux, focus on logs relevant to authentication and access
+    control, such as auth.log and SSH login events. Consider logs from
+    third-party security tools and network virtual appliances (NVAs).
+    When including system logs, make sure to separate security-relevant
+    data from general performance or operational logs to avoid
+    unnecessary ingestion</p>
+</li>
+<li>
+<p>Consider high-value third-party logs that can improve visibility and
+    support deeper investigations, such as:</p>
+<ul>
+<li>
+<p>Email security gateway logs (e.g. Defender for Office 365, Proofpoint)</p>
+</li>
+<li>
+<p>Web proxy or filtering logs</p>
+</li>
+<li>
+<p>NetFlow data for network traffic analysis</p>
+</li>
+<li>
+<p>DNS query logs for identifying access to malicious domains</p>
+</li>
+<li>
+<p>Application security logs from web application firewalls</p>
+</li>
+</ul>
+<blockquote>
+<p>These logs are especially useful when looking into phishing attempts,
+data exfiltration, or lateral movement. However, depending on the
+solution in use, custom integration might be needed to bring them into
+Microsoft Sentinel.</p>
+</blockquote>
+</li>
+<li>
+<p>Prioritise Azure AD sign-in logs and high-value Windows event logs
+    such as Event IDs 4624 (successful logon), 4625 (failed logon), and
+    4672 (privileged logon) for user monitoring and Syslog high-severity
+    alerts for threat detection, while avoiding system performance logs
+    with low security value. Using Sentinel's data connectors and Data
+    Collection Rules (DCR), this targeted approach ensures only
+    high-priority logs are collected, supporting security analytics,
+    compliance and cost savings by excluding unnecessary data.</p>
+</li>
+<li>
+<p>Avoid collecting operational logs that are only for system health or
+    performance, as these can increase costs and fill your workspace.
+    Examples include Windows logs like System or Application, and Linux
+    logs such as /var/log/syslog, which mainly record routine service
+    status messages. Focus on logs that support threat detection,
+    compliance, or incident response.</p>
+</li>
+<li>
+<p>Consider the importance of the system generating the logs, not just
+    the log type. Some systems such as domain controllers, identity
+    providers, firewalls, and mail gateway, play a more critical role in
+    security operations.</p>
+<blockquote>
+<p>Refer to the <a href="#appendix-system-priority-for-log-collection">Appendix: System priority for log
+collection</a> for a
+suggested order of log source onboarding based on system importance,
+informed by practitioner guidance.</p>
+</blockquote>
+</li>
+<li>
+<p>Consider going beyond conventional sign-in or admin logs and include
+    logs that capture cloud API activity and short-lived cloud
+    resources. Sentinel can ingest these logs through native connectors
+    like Azure Activity, Microsoft Entra ID, and resource-specific
+    diagnostic settings. This visibility is critical, as real-world
+    incidents, like SolarWinds Incident, have shown that attackers may
+    use cloud APIs to create users, escalate privileges, or deploy
+    resources -- without appearing in standard administrative audit
+    trails.</p>
+<p>Recommended cloud log types to prioritise in Sentinel include:</p>
+<ul>
+<li>
+<p>Authentication and role changes from Microsoft Entra ID logs</p>
+</li>
+<li>
+<p>Azure Resource Manager activity and policy modifications from Azure
+  Activity logs</p>
+</li>
+<li>
+<p>Cloud API events, such as provisioning, scaling, and service-level
+  changes</p>
+</li>
+<li>
+<p>Lifecycle events of short-lived resources, such as VMs or containers</p>
+</li>
+<li>
+<p>Audit and compliance logs, including access to storage accounts or key
+  vaults</p>
+</li>
+<li>
+<p>Application-level logs, capturing system or config changes at the
+  app/service level</p>
+</li>
+</ul>
+<blockquote>
+<p>Ingesting these logs into Sentinel enables security teams to detect
+cloud-native attack techniques, monitor misconfigurations, and support
+post-incident investigation across cloud workloads.</p>
+<p>Refer to the <a href="#appendix-log-sources">Appendix: Log source details</a> to prioritise the data sources.</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="security-logs">Security logs<a class="headerlink" href="#security-logs" title="Permanent link">&para;</a></h3>
+<p>Security logs capture critical events that help protect, monitor, and
+maintain the integrity of IT systems. They capture activities such as
+user authentications, access attempts, firewall alerts, and threat
+indicators across networks, endpoints, and applications.</p>
+<p>The primary purpose of security logs is to support threat detection,
+incident response, and compliance auditing, giving organisations clear
+visibility into security-related activities and helping safeguard their
+assets.</p>
+<blockquote>
+<p>Refer to <a href="#_Appendix:_Log_types">Appendix: Log types</a> and [Appendix: Log categories (#appendix-system-priority-for-log-collection) for recommended security log use cases, categories and purpose.</p>
+</blockquote>
+<h3 id="operational-logs">Operational logs<a class="headerlink" href="#operational-logs" title="Permanent link">&para;</a></h3>
+<p>Operational logs record information about the performance, health, and
+routine activities of IT systems, applications, and infrastructure such
+as server uptime, application performance metrics, and database
+transactions. These logs mainly support system monitoring,
+troubleshooting, and optimisation, helping IT teams maintain system
+efficiency and identify performance issues early. Key benefits of
+operational logs include improved system reliability, better user
+experience, and informed capacity planning.</p>
+<p>However, it is generally not recommended to ingest operational logs into
+Microsoft Sentinel's Log Analytics Workspace. Ingesting large volumes of
+non-security data can increase costs unnecessarily and affect the
+performance of security analytics.</p>
+<p>Following the Cost Optimisation pillar of the Azure Well-Architected
+Framework, it is important to store operational logs in a more
+cost-effective platform, while keeping Sentinel focused on security and
+compliance needs.</p>
+<blockquote>
+<p>Further strategies for managing ingestion and controlling costs will be discussed strategies in <a href="#collection-and-ingestion-management">Collection and ingestion management</a> and <a href="#_Cost_management">Cost management</a></p>
+</blockquote>
+<h2 id="collection-and-ingestion-management">Collection and ingestion management<a class="headerlink" href="#collection-and-ingestion-management" title="Permanent link">&para;</a></h2>
+<p>Ingestion management is a vital part of Microsoft Sentinel's log
+management, focusing on the careful collection and integration of log
+data into the Log Analytics Workspace to strengthen security and meet
+compliance needs.</p>
+<p>It is recommended to configure log ingestion so that only the most
+relevant logs-such as Azure AD sign-in logs for user monitoring and
+Syslog high-severity alerts for threat detection are collected in
+Microsoft Sentinel.</p>
+<p>Once data sources are ingested into Microsoft Sentinel, it is important
+to enable threat detection capabilities by installing relevant analytics
+rules. These are available via the Content Hub, where out-of-the-box
+rule templates can be deployed for various log sources. Without these
+rules, ingested data may not trigger any alerts.</p>
+<p>For deeper investigations and correlation beyond alerts, custom KQL
+queries can be used to explore the ingested data and identify patterns
+or suspicious behaviours that automated rules may not catch. This
+ensures both proactive detection and reactive investigation are
+supported as part of the log management lifecycle. It supports effective
+threat detection and incident response while helping control costs and
+reduce unnecessary data.</p>
+<p><img alt="A diagram of a computer security system AI-generated content may be
+incorrect." src="../media/log_collection.png" /></p>
+<p>Figure 1: Collection and ingestion of different type of logs</p>
+<h3 id="filtering-at-the-source">Filtering at the Source<a class="headerlink" href="#filtering-at-the-source" title="Permanent link">&para;</a></h3>
+<p>In general, filtering improves cost efficiency and performance by
+focusing on high-value security logs.</p>
+<ol>
+<li>
+<p>Configure Data Collection Rules (DCR) within Microsoft Sentinel's
+    data connectors to exclude non-essential data, such as routine
+    operational logs or informational events, before ingestion into the
+    Log Analytics Workspace.</p>
+</li>
+<li>
+<p>DCRs enable precise filtering by defining which log types or events
+    are collected, reducing data volume, lowering storage and processing
+    costs, and improving query performance.</p>
+</li>
+<li>
+<p>Use DCRs to filter out low-value logs before they enter Sentinel</p>
+</li>
+<li>
+<p>Only collect logs that help with security, incident response, or
+    compliance including identity activity, firewall and VPN traffic,
+    endpoint alerts, and privileged account usage. In addition to
+    alert-generating logs, prioritise logs essential for investigations
+    -- such as specific process creation events (4688), DNS and proxy
+    logs, Active Directory changes (5136), and account lifecycle actions
+    (4720-4726). These enable deeper threat hunting, forensics, and root
+    cause analysis in addition to automated or scheduled alerting.</p>
+</li>
+</ol>
+<p>This targeted approach ensures that analysts can focus on
+security-relevant information, enhancing the effectiveness of threat
+detection and compliance monitoring.</p>
+<p>Refer to the <a href="#appendix-windows-event-id-summary">Appendix: Windows Event ID
+recommendation</a> to include and
+exclude using the DCR query. This list includes recommendations from
+<a href="https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/system-monitoring/implementing-siem-and-soar-platforms/priority-logs-for-siem-ingestion-practitioner-guidance">ASD: Priority logs for SIEM
+ingestion</a>.</p>
+<h3 id="data-normalisation">Data normalisation<a class="headerlink" href="#data-normalisation" title="Permanent link">&para;</a></h3>
+<p>Normalised data makes it easier to search, link events, and run
+analytics, helping you find threats faster and respond more effectively.</p>
+<p>Microsoft Sentinel enables both query-time and ingest-time data
+normalisation, commonly through the use of the Azure Sentinel
+Information Model (ASIM) parsers, providing organisations with the
+flexibility to leverage the benefits of both approaches.</p>
+<p><strong>Query-time normalisation offers several advantages:</strong></p>
+<ul>
+<li>
+<p>Security: By preserving the original data format without modification,
+  it ensures that all raw data remains intact, enabling accurate and
+  reliable threat detection.</p>
+</li>
+<li>
+<p>Operational Excellence: It avoids duplicate storage by presenting a
+  normalised view rather than storing separate copies of the data,
+  reducing complexity.</p>
+</li>
+<li>
+<p>Performance Efficiency: Query-time normalisation allows parsers to be
+  developed, tested, and refined without altering existing data,
+  enabling fast updates that automatically apply to historical data.</p>
+</li>
+<li>
+<p>Cost Optimisation: It reduces storage and resource costs by
+  eliminating the need for duplicate data storage.</p>
+</li>
+</ul>
+<p><strong>Ingest-time normalisation also offers some benefits:</strong></p>
+<ul>
+<li>
+<p>Transforms and stores the data at the point of ingestion, ensuring
+  immediate consistency across all logs.</p>
+</li>
+<li>
+<p>While it can enhance data uniformity for security analysis, this
+  approach often leads to higher storage and processing costs.</p>
+</li>
+</ul>
+<p><img alt="" src="../media/Microsoft_ASIM_Normalisation.png" /></p>
+<p>Figure 2:  <a href="https://learn.microsoft.com/en-us/azure/sentinel/media/normalization/asim-architecture.png">Microsoft ASIM Normalisation</a></p>
+<p><strong>Implement Best Practices:</strong></p>
+<ul>
+<li>
+<p>Use ASIM parsers for standardised data models across different
+  security tools.</p>
+</li>
+<li>
+<p>Implement field mapping to ensure consistent naming conventions.</p>
+</li>
+<li>
+<p>Create custom parsers for proprietary log formats.</p>
+</li>
+<li>
+<p>Test normalisation rules thoroughly before production deployment.</p>
+</li>
+<li>
+<p>Maintain accurate timestamps across all data sources.</p>
+</li>
+</ul>
+<p><strong>General advise,</strong></p>
+<ul>
+<li>
+<p>Normalised data makes it easier to search, link events, and run
+  analytics, helping you find threats faster and respond more
+  effectively.</p>
+</li>
+<li>
+<p>When all log data is in the same format, security teams can quickly
+  spot attack patterns and link related incidents, even if the data
+  comes from different sources.</p>
+</li>
+</ul>
+<p>This helps them detect threats and respond more quickly, making their
+threat hunting and investigations much convenient</p>
+<h3 id="track-and-optimise-ingestion">Track and optimise ingestion<a class="headerlink" href="#track-and-optimise-ingestion" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Regularly reviewing ingestion metrics in Microsoft Sentinel's Log
+  Analytics Workspace is key to ensuring smooth, secure, and
+  cost-effective data processing.</p>
+</li>
+<li>
+<p>Tracking unusual patterns, such as sudden spikes in Azure AD sign-in
+  logs or Syslog alerts, helps identify potential security threats or
+  misconfigured connectors quickly, enhancing threat detection and
+  response.</p>
+</li>
+<li>
+<p>For example, consistent surges in VPN or DNS logs could reflect
+    failed sign-ins or beaconing activity. Monitor log ingestion
+    regularly to spot spikes or issues early. This helps maintain fast
+    performance and reliable threat detection.</p>
+</li>
+<li>
+<p>Investigate ingestion spikes promptly to maintain performance and
+    avoid excess data storage.</p>
+</li>
+<li>
+<p>After reviewing ingestion trends and identifying noise or unnecessary
+  data, use Data Collection Rules to filter out low-value logs to filter
+  and ingest into the Sentinel. Review and adjust what you collect as
+  your needs change.</p>
+</li>
+<li>
+<p>Ensuring only essential logs are ingested keeps storage costs low and
+  system resources focused on what matters.</p>
+</li>
+<li>
+<p>Adjust log collection policies as the environment evolves. New
+  services or applications may introduce different threats and change
+  your detection requirements.</p>
+</li>
+</ul>
+<p>This approach supports efficient, secure, and cost-effective log
+management.</p>
+<h3 id="ingestion-delay-mitigation">Ingestion delay mitigation<a class="headerlink" href="#ingestion-delay-mitigation" title="Permanent link">&para;</a></h3>
+<p>Scheduled analytics rules are designed to run at regular intervals,
+typically every five minutes, with a default look-back period of five
+minutes. However, each data source may experience its own ingestion
+delay, causing a gap between when events are generated and when they are
+ingested into Sentinel. This delay can result in missed detections if
+the events fall outside the scheduled query's look-back window.</p>
+<p>To mitigate this, it is important to understand the ingestion delay for
+each data source. The KQL can be used to calculate the difference
+between the time generated and the time ingested. This allows the
+look-back period to be adjusted accordingly.</p>
+<p>Adjusting scheduled queries to handle ingestion delays supports Security
+by ensuring no threat is missed, even with data delays.</p>
+<p><img alt="Diagram showing five-minute look back windows with a delay of two
+minutes." src="../media/Microsoft_Ingestion_Delay01.png" /></p>
+<p>Figure 3: Microsoft Ingestion delay problem</p>
+<p><img alt="Diagram showing how setting the ago restriction captures the
+event." src="../media/Microsoft_Ingestion_Delay02.png" /></p>
+<p>Figure 4: Microsoft Ingestion delay resolution</p>
+<p>For critical use cases, it\'s worth considering near real-time
+monitoring with Microsoft Sentinel\'s streaming analytics rules or
+Microsoft Defender XDR alerts. These can send high-priority detections
+into Sentinel almost instantly, helping catch and escalate urgent
+threats without waiting for the next scheduled rule to run.</p>
+<h3 id="avoid-single-point-of-failure">Avoid Single Point of Failure<a class="headerlink" href="#avoid-single-point-of-failure" title="Permanent link">&para;</a></h3>
+<p>A risk occurs when only one log collector (like a server or agent) is
+used to gather and send logs from your systems to Microsoft Sentinel or
+another security platform. If that single collector fails, important log
+data can be lost. Here are some key points to consider.</p>
+<ul>
+<li>
+<p>For third-party data collection in Microsoft Sentinel, avoiding a
+  single point of failure in log collectors is crucial to ensure
+  continuous and secure log ingestion from sources like Syslog or
+  CommonSecurityLog.</p>
+</li>
+<li>
+<p>Deploying multiple log collectors, such as Azure Monitor Agent
+  instances or Syslog servers, across different Azure regions or
+  on-premises environments prevents disruptions if one collector fails.</p>
+</li>
+<li>
+<p>This approach prevents disruptions in log collection if one collector
+  fails due to network issues or hardware problems.</p>
+</li>
+<li>
+<p>For example, configure redundant Syslog collectors to forward
+  high-severity alerts to the Log Analytics Workspace, using load
+  balancing to distribute data.</p>
+</li>
+<li>
+<p>Regularly monitor collector health with Azure Monitor and test
+  failover processes to ensure logs are always available, strengthening
+  the cybersecurity setup, as detailed in the following practices.</p>
+</li>
+</ul>
+<p><img alt="A computer diagram with a diagram and a diagram AI-generated content
+may be incorrect." src="../media/VMSS_Architecture.png" /></p>
+<p>Figure 5: VMSS architecture for redundant log collectors</p>
+<p>This setup is especially important for critical security logs where
+missing data could mean missing an attack. It ensures you don't lose
+important security data in that scenario.</p>
+<h3 id="log-quality-and-integrity-considerations">Log Quality and Integrity Considerations<a class="headerlink" href="#log-quality-and-integrity-considerations" title="Permanent link">&para;</a></h3>
+<p>To make sure logs are useful for detecting threats and supporting
+investigations, it\'s important to focus on the quality and consistency
+of the data being collected into Microsoft Sentinel.</p>
+<ul>
+<li>
+<p><strong>Collect sufficient details:</strong> Logs should include key information
+  like usernames, IP addresses, process names, and actions taken. Logs
+  without this context often can't help during investigations or
+  incident reviews.</p>
+</li>
+<li>
+<p><strong>Maintain accurate timestamps:</strong> Use the same time source across all
+  systems (like NTP). This helps keep logs aligned across different
+  sources and avoids confusion when reviewing incidents.</p>
+</li>
+<li>
+<p><strong>Implement log correlation capabilities:</strong> Use Sentinel's native
+  correlation features such as analytics rules, entity mapping, and
+  custom KQL joins to connect related events across sources (e.g. a
+  failed login followed by a suspicious process). This helps detect
+  threats earlier and speeds up investigations.</p>
+</li>
+<li>
+<p><strong>Preserve chain of custody:</strong> When handling logs for regulatory or
+  legal investigations, ensure logs are retained in tamper-proof storage
+  (e.g. Log Analytics immutable retention) and that access to logs is
+  controlled and auditable. Use Sentinel\'s access control (RBAC) and
+  audit logs to track who accessed or modified log configurations.</p>
+</li>
+</ul>
+<p>These considerations support integrity, reliability, and investigative
+value across all collected data in Sentinel.</p>
+<h2 id="retention-management">Retention management<a class="headerlink" href="#retention-management" title="Permanent link">&para;</a></h2>
+<p>Retention management is a key part of log management, ensuring data is
+kept for the right amount of time to meet security and compliance needs.
+It involves setting retention periods for different logs in Microsoft
+Sentinel, based on regulatory requirements, company policies, and
+operational needs.</p>
+<p>A well-defined retention policy helps balance long-term data storage for
+analysis, threat detection, and incident response, while optimising
+storage costs and reducing the risk of data breaches by safely deleting
+outdated or irrelevant data.</p>
+<p>Retaining critical logs, such as Azure AD sign-in logs or
+CommonSecurityLog alerts, ensures they are available for threat
+detection and incident investigations.</p>
+<p>Maintaining fast query performance depends on keeping the workspace free
+from unnecessary data. The following practices help organisations set
+the right retention periods, monitor storage use, and automate retention
+policies. This approach keeps the cybersecurity setup secure and
+cost-effective.</p>
+<ul>
+<li>
+<p><strong>Set Retention Periods Based on Log Criticality</strong>: Configure
+  retention in the Log Analytics Workspace to keep security logs, such
+  as Syslog alerts or CommonSecurityLog, for 90--365 days to support
+  analytics rules and threat investigations. Where operational logs are
+  required, limit their retention to 30 days to save costs. Use the
+  Azure portal to adjust settings, ensuring critical logs remain
+  accessible while minimising storage needs.</p>
+<blockquote>
+<p><em>Note: Operational logs used purely for system health or performance
+monitoring aren\'t recommended for ingestion into Microsoft Sentinel.
+If they\'re needed for a specific use case, keep their retention
+period short -- ideally just 7 to 14 days.</em></p>
+<p><em>ASD guidance suggests a minimum of 90 days for authentication logs
+and 180 days for host activity to support forensic investigations.</em></p>
+</blockquote>
+</li>
+<li>
+<p><strong>Use Interactive and Archive Tiers</strong>: Store frequently queried logs,
+  like Azure AD sign-in logs, in the Interactive tier for 90 days to
+  enable quick analytics. Move older logs to long-term retention or
+  Archive tier for long-term, low-cost storage, such as retaining
+  CommonSecurityLog for up to 1 year for historical analysis. An example
+  of this is that a high volume firewall log would fall under the Basics
+  plan as it is much more expensive to retain in the Analytics plan.
+  Configure tiers in the Azure portal to balance access and cost.</p>
+</li>
+<li>
+<p><strong>Monitor Storage Usage</strong>: Regularly check storage consumption using
+  KQL queries to identify logs taking up excessive space. Adjust
+  retention periods if security or cost needs change, for example,
+  extending Syslog retention during a threat investigation. Use Azure
+  Cost Management to track storage expenses and keep budgets in check.</p>
+</li>
+<li>
+<p><strong>Use the Microsoft Sentinel Optimization Workbook</strong>: It is available
+  through the Content Hub to monitor and improve your workspace. It
+  includes three sections: Cost and Ingestion Optimisation, Operational
+  Effectiveness, and Management and Acceleration, helping you identify
+  areas to reduce costs and streamline operations.</p>
+</li>
+<li>
+<p><strong>Automate Retention Policies</strong>: If Azure Log Analytics are available,
+  apply Azure policies to enforce retention settings across workspaces,
+  such as retaining Azure AD sign-in logs for 90 days and archiving
+  AzureActivity after 30 days. Use Azure Monitor to ensure policies are
+  followed, reducing manual work and ensuring consistency. Automation
+  keeps retention efficient and secure.\
+  <em>Note: For smaller agencies or setups with just one workspace,
+  automation might not be needed. In such cases, setting retention
+  manually could be easier and more suitable for the environment.</em></p>
+<blockquote>
+<p>Refer to <a href="#appendix-retention-options">Appendix: Retention options</a> to
+understand the available options for sentinel log retention</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="cost-management">Cost management<a class="headerlink" href="#cost-management" title="Permanent link">&para;</a></h2>
+<p>Controlling expenses for log ingestion, retention, and search queries,
+organisations can maintain robust threat detection without overspending.</p>
+<blockquote>
+<p>Refer to <a href="#appendix-log-sources">Appendix: Log sources</a> for data
+connectors, Microsoft benefits, billable and non-billable data ingestion.</p>
+<p>Refer to <a href="#appendix-sentinel-pricing-tiers">Appendix: Sentinel Pricing
+Tiers</a> to understand the different options available</p>
+</blockquote>
+<h3 id="ingestion-cost-management">Ingestion cost management<a class="headerlink" href="#ingestion-cost-management" title="Permanent link">&para;</a></h3>
+<p>Managing ingestion costs start with focusing on collecting only the most
+valuable logs and filtering out unnecessary data before it enters your
+workspace. This approach helps control expenses and keeps your security
+monitoring effective.</p>
+<p>Key recommendations for managing ingestion cost:</p>
+<ul>
+<li>
+<p><strong>Prioritise high-value logs:</strong> Prioritise high-value logs, such as
+  Azure AD sign-in logs, Endpoint or Syslog high-severity alerts, and
+  limiting low-value logs, like system performance data, organisations
+  can reduce storage and processing expenses in the Log Analytics
+  Workspace.</p>
+</li>
+<li>
+<p><strong>Balance cost and value:</strong> Cost-saving measures should never reduce
+  your ability to detect threats. Always focus on collecting and
+  analysing critical logs needed for security analytics and incident
+  response.</p>
+</li>
+<li>
+<p><strong>Limit low-value logs:</strong> Avoid ingesting logs like system performance
+  data or routine operational logs, as they add cost without much
+  security benefit.</p>
+</li>
+<li>
+<p><strong>Use Data Collection Rules (DCRs):</strong> Set up DCRs to filter out
+  routine or low-priority logs before they are ingested into Sentinel.
+  Use DCRs to only ingest Syslog alerts with high severity, filtering
+  out routine or low-value logs that do not add to your threat
+  detection. This approach helps you avoid unnecessary data costs while
+  keeping your security monitoring strong.</p>
+</li>
+<li>
+<p><strong>Use basic logs for high-volume, low-priority data:</strong> Where possible,
+  use the basic log type instead of analytics logs for data that is not
+  needed for advanced security analytics.</p>
+</li>
+</ul>
+<p>This strategy keeps your log management affordable, efficient, and
+focused on what matters most for security.</p>
+<h3 id="retention-cost-management">Retention cost management<a class="headerlink" href="#retention-cost-management" title="Permanent link">&para;</a></h3>
+<p>Managing retention costs by setting shorter retention periods for less
+important logs and archiving critical logs to lower-cost storage to keep
+your system secure and your expenses under control.</p>
+<p>Key recommendations for managing retention cost:</p>
+<ul>
+<li>
+<p><strong>Archive critical logs:</strong>\
+  For important logs such as Azure AD sign-in logs or CommonSecurityLog
+  alerts, keep them in the Interactive tier for 90 days, then move them
+  to the Archive tier for long-term, low-cost storage.</p>
+</li>
+<li>
+<p><strong>Balance compliance and cost:</strong>\
+  Make sure you meet any legal or business rules for keeping data. For
+  example, keep security logs in analytics logs for at least 180 days,
+  then move them to long-term storage if needed for compliance.</p>
+</li>
+<li>
+<p><strong>Use table-level retention settings:</strong>\
+  Set different retention times for each table in your Log Analytics
+  Workspace. This helps you control both storage and costs more closely.</p>
+</li>
+<li>
+<p><strong>Automate retention policies:</strong></p>
+<blockquote>
+<p>Use Azure Policy or built-in automation to apply and enforce retention
+rules, so old logs are deleted or archived without manual work.\
+<em>Note: For smaller agencies or organisation with just one workspace,
+automation might not be needed. In such cases, setting retention
+manually could be easier and more suitable for the environment.</em></p>
+</blockquote>
+</li>
+<li>
+<p><strong>Separate retention policies:</strong> Set the right retention time for each
+  type of data, depending on your compliance needs and how often you use
+  the data. Microsoft Sentinel lets you keep data for up to 730 days.
+  You can also set different retention times for each table, which helps
+  you control both data storage and costs more closely.</p>
+</li>
+</ul>
+<h2 id="data-security">Data security<a class="headerlink" href="#data-security" title="Permanent link">&para;</a></h2>
+<p>Ensuring the security of log data within Microsoft Sentinel is crucial
+for maintaining the integrity of security operations and compliance with
+organisational policies. This involves implementing granular access
+controls, configuring appropriate data retention policies, and adhering
+to best practices for workspace management.​</p>
+<h3 id="access-control-measures">Access Control Measures<a class="headerlink" href="#access-control-measures" title="Permanent link">&para;</a></h3>
+<p>Use Azure Role-Based Access Control (RBAC) to manage permissions at both
+the workspace and table levels. This allows organisations to enforce the
+principle of least privilege, ensuring users have access only to the
+data necessary for their roles.​</p>
+<ul>
+<li>
+<p><strong>Workspace-Level Access</strong>: Permissions can be assigned to users or
+  groups to grant access to the entire workspace, facilitating broad
+  administrative capabilities when necessary.​</p>
+</li>
+<li>
+<p><strong>Table-Level Access</strong>: For more granular control, permissions can be
+  set at the table level, restricting access to specific datasets. This
+  is particularly useful for segregating sensitive data and ensuring
+  that only authorised personnel can access certain log types. ​</p>
+</li>
+</ul>
+<!-- -->
+
+<ul>
+<li>
+<p><strong>Implement Least Privilege Access</strong>: Assign users only the
+  permissions necessary for their roles, utilising table-level access
+  controls where appropriate.​</p>
+</li>
+<li>
+<p><strong>Regularly Review Access Permissions</strong>: Conduct periodic audits of
+  user permissions to ensure they align with current organisational
+  roles and responsibilities.​</p>
+</li>
+<li>
+<p><strong>Monitor Data Access and Usage</strong>: Utilise Azure Monitor and
+  Sentinel\'s auditing capabilities to track access patterns and detect
+  any anomalies or unauthorised access attempts.​</p>
+</li>
+</ul>
+<h3 id="data-protection-measures">Data Protection Measures<a class="headerlink" href="#data-protection-measures" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>Ensure encryption of log data in transit and at rest:</strong> Sentinel
+  uses Azure platform encryption by default, but make sure TLS is
+  enforced for all data being forwarded from external collectors or
+  hybrid sources.</p>
+</li>
+<li>
+<p><strong>Implement network security controls on log collectors:</strong> If using
+  on-prem log forwarders or custom agents, restrict inbound traffic with
+  NSGs or firewalls, and limit communication only to trusted endpoints
+  like the Azure Monitor ingestion point.</p>
+</li>
+<li>
+<p><strong>Use secure communication protocols for all log forwarding:</strong> Always
+  forward logs using secure channels such as Syslog over TLS or
+  HTTPS-based APIs, especially for third-party or custom connectors.</p>
+</li>
+<li>
+<p><strong>Log all administrative actions performed within Sentinel:</strong> Ensure
+  that changes to analytics rules, connectors, workbooks, and retention
+  settings are tracked using Azure Activity Logs or Microsoft Entra
+  audit logs.</p>
+</li>
+</ul>
+<p>It\'s important to note that certain built-in roles, such as Reader or
+Contributor, may override table-level access controls. Therefore,
+careful assignment of roles is crucial to maintain the desired security
+posture.​​</p>
+<h3 id="hosting-azure-log-data">Hosting Azure Log Data<a class="headerlink" href="#hosting-azure-log-data" title="Permanent link">&para;</a></h3>
+<p>The Queensland Government Enterprise Architecture (QGEA) offers guidance
+for agencies considering cloud services:</p>
+<ul>
+<li>
+<p><strong>Data Sovereignty and Residency:</strong> Government agencies need to make
+  sure cloud providers can keep data stored within Australia to meet
+  legal and regulatory rules.</p>
+</li>
+<li>
+<p><strong>Information Security Policy (IS18:2018):</strong> Agencies have to set up
+  an Information Security Management System (ISMS) based on ISO 27001 to
+  keep information secure, trustworthy, and accessible.</p>
+</li>
+<li>
+<p><strong>Cloud Strategy:</strong> The Queensland Government's cloud strategy pushes
+  agencies to use cloud services, but they need to carefully check and
+  handle risks, especially around keeping data secure and private.</p>
+</li>
+</ul>
+<p>To align with Queensland Government guidelines:</p>
+<ul>
+<li>
+<p><strong>Select Australian Regions</strong>: When you're setting up Azure Log
+  Analytics workspaces or Microsoft Sentinel, select Australian regions
+  like Australia East or Southeast to keep data stored within the
+  country.</p>
+</li>
+<li>
+<p><strong>Implement ISMS</strong>: Set up and keep an Information Security Management
+  System based on ISO 27001 to handle security risks well.</p>
+</li>
+</ul>
+<h2 id="appendix-qualification-checklist">Appendix: Qualification checklist<a class="headerlink" href="#appendix-qualification-checklist" title="Permanent link">&para;</a></h2>
+<p>Use this checklist to assess if your log management setup in Microsoft
+Sentinel aligns with the best practices outlined in this guide and by
+Microsoft. Each item is actionable and can be validated during design,
+deployment, or operations.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Qualification</strong></th>
+<th><strong>Status</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Have you listed and prioritised your most important log sources (like Azure AD sign-ins, firewall alerts)?</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Are you filtering out logs that are not useful for security or compliance?</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Are you using Data Collection Rules (DCRs) to control what is ingested?</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Do you review log ingestion regularly for spikes or unexpected data?</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Are logs normalised for easier searching, correlation and analysis?</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Do you monitor for delays in log ingestion and adjust queries if needed?</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Do you have more than one log collector to avoid single points of failure?</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Is collector health monitored, and are failover processes tested regularly?</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Are retention periods set based on how important each log is?</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Are you using both Interactive and Archive tiers to balance access and cost?</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Is long-term retention (archive) used for logs needed for compliance but not frequent access??</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Have you considered either query-time or ingest-time normalisation approaches?</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Is access to logs controlled with RBAC and reviewed regularly?</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Are your log management processes documented and updated?</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-log-type-and-usage">Appendix: Log Type and Usage<a class="headerlink" href="#appendix-log-type-and-usage" title="Permanent link">&para;</a></h2>
+<p>Microsoft Sentinel offers tools to monitor and manage data ingestion
+volumes, which helps keep log storage and analysis costs under control.
+It collects different types of logs, so understanding what's being
+ingested is key to managing costs effectively.</p>
+<p><img alt="" src="../media/Microsoft_LAW_Retention.png" />
+Figure 6: Microsoft Log Analytics Workspace Retention</p>
+<h3 id="analytics-logs">Analytics Logs<a class="headerlink" href="#analytics-logs" title="Permanent link">&para;</a></h3>
+<p>Analytics logs in Microsoft Sentinel support all data types, providing
+comprehensive analytics, alerting capabilities, and unrestricted
+querying. These logs contain high-value security data that offer
+insights into the status, usage, security posture, and performance of
+your environment. Proactive monitoring of Analytics logs, combined with
+scheduled alerts and analytics, is essential for effective security
+detection and response.</p>
+<h3 id="basic-logs">Basic Logs<a class="headerlink" href="#basic-logs" title="Permanent link">&para;</a></h3>
+<p>Basic Logs tend to be more detailed and include a lot of high-volume
+data with lower security value compared to Analytics Logs. They're not
+typically used for advanced analytics or alerts but are handy for
+on-the-spot queries, investigations, and searches when needed.</p>
+<h3 id="auxiliary-logs-preview">Auxiliary Logs (Preview)<a class="headerlink" href="#auxiliary-logs-preview" title="Permanent link">&para;</a></h3>
+<p>Auxiliary Logs in Microsoft Sentinel are high-volume, low-fidelity logs,
+like network and firewall logs, that play an important role in security
+investigations, threat hunting, and providing extra context during an
+attack. This feature is currently in preview, and billing hasn't started
+yet.</p>
+<h2 id="appendix-system-priority-for-log-collection">Appendix: System priority for log collection<a class="headerlink" href="#appendix-system-priority-for-log-collection" title="Permanent link">&para;</a></h2>
+<p>The following table is based on ACSC <a href="https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/system-monitoring/implementing-siem-and-soar-platforms/priority-logs-for-siem-ingestion-practitioner-guidance#_ftn105">practitioner
+guidance</a>
+and outlines a typical priority order for system types when planning log
+onboarding for Microsoft Sentinel solutions. This priority order can be
+used alongside other considerations to build a final plan for onboarding
+of logs.</p>
+<p>Organisations can use this priority as a guide when onboarding systems
+into Sentinel, especially when full log centralisation is not yet in
+place. This will directly support incident response capabilities by
+ensuring the right data is available when security incidents occur.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"><strong>Priority Order</strong></th>
+<th><strong>System Type</strong></th>
+<th><strong>Reason for Priority</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>Identity providers (e.g. Entra ID, ADFS)</td>
+<td>Capture sign-ins, SSO activity, and federation behaviours critical for attack detection</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>Domain Controllers</td>
+<td>Core source of authentication, privilege escalation, and user activity logs</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>Firewalls and VPN gateways</td>
+<td>Network visibility; detect policy violations, remote access, and perimeter anomalies</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>Email gateways</td>
+<td>High-value logs for detecting phishing, malware, and email-based threats</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td>Endpoint security platforms</td>
+<td>Provide real-time alerts and telemetry for malware, behaviour, and isolation events</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td>Critical application servers</td>
+<td>Detect configuration tampering, unauthorised access, or sensitive data exposure</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td>Perimeter servers</td>
+<td>Detect initial access to servers easily accessible from the internet or a VPN.</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td>File, database servers and other storage</td>
+<td>Important for monitoring access to shared resources and potential data exfiltration. Process execution and file system changes. Database access and modification logs</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td>All other systems</td>
+<td>Detect broader compromise across the network and perform environment-wide threat hunting.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-log-categories">Appendix: Log categories<a class="headerlink" href="#appendix-log-categories" title="Permanent link">&para;</a></h2>
+<p>The following table outlines commonly identified data sources that are
+recommended for ingestion into Microsoft Sentinel to support visibility,
+threat detection, and incident response.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Category</strong></th>
+<th><strong>Example Data Sources</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Identity</strong></td>
+<td>Microsoft Entra ID (Azure AD) Sign-in and Audit Logs</td>
+<td>Monitor authentication and user activity</td>
+</tr>
+<tr>
+<td><strong>Cloud Activity</strong></td>
+<td>Azure Activity Logs, AWS CloudTrail, GCP Audit Logs</td>
+<td>Track changes and operations in cloud services</td>
+</tr>
+<tr>
+<td><strong>Endpoint Security</strong></td>
+<td>Microsoft Defender for Endpoint, Antivirus Logs</td>
+<td>Detect malware, suspicious activities, and endpoint risks</td>
+</tr>
+<tr>
+<td><strong>Network Security</strong></td>
+<td>Firewall Logs (Azure Firewall, Palo Alto, Fortinet), VPN Logs, Web Proxy or Filtering Logs, NetFlow Data / Network Flow Logs</td>
+<td>Monitor traffic flows, blocked connections, and VPN access</td>
+</tr>
+<tr>
+<td><strong>Threat Detection</strong></td>
+<td>Microsoft 365 Defender, Microsoft Defender for Identity Alerts, Email Security Gateway Logs</td>
+<td>Detect and respond to identity and email threats</td>
+</tr>
+<tr>
+<td><strong>Application Security</strong></td>
+<td>Microsoft 365 Audit Logs, Custom Application Logs, Web Server Logs</td>
+<td>Track actions within business-critical applications</td>
+</tr>
+<tr>
+<td><strong>Infrastructure</strong></td>
+<td>Windows Event Logs, Linux Syslog</td>
+<td>Monitor server-level operations and failures</td>
+</tr>
+<tr>
+<td><strong>Threat Intelligence</strong></td>
+<td>TI Platforms (e.g., Threat Intelligence Platforms, MISP)</td>
+<td>Enrich alerts with external threat context</td>
+</tr>
+<tr>
+<td><strong>Data Access</strong></td>
+<td>Database storage (including SQL Server, Oracle and others) On-prem and Cloud file storage.</td>
+<td>Database queries, file access, data transfers</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-windows-event-id-summary">Appendix: Windows Event ID Summary<a class="headerlink" href="#appendix-windows-event-id-summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Log Type</strong></th>
+<th><strong>Key Event IDs</strong></th>
+<th><strong>Why It Matters</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logon/Authentication</td>
+<td>4624, 4625, 4648, 4672, 4768, 4769, 4776</td>
+<td>Core to user access tracking, threat detection</td>
+</tr>
+<tr>
+<td>Account Lifecycle</td>
+<td>4720--4726, 4738, 4781, 4767</td>
+<td>Account creation, deletion, modification</td>
+</tr>
+<tr>
+<td>Group Membership</td>
+<td>4728--4733, 4746--4762</td>
+<td>Detect privilege escalation and group changes</td>
+</tr>
+<tr>
+<td>Endpoint Activity</td>
+<td>4688, 4103, 4104, 7045</td>
+<td>Track command and process execution</td>
+</tr>
+<tr>
+<td>Directory Services</td>
+<td>5136, 5141</td>
+<td>Monitor AD object modifications or deletions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-windows-event-id-inclusion-recommendation">Appendix: Windows Event ID inclusion recommendation<a class="headerlink" href="#appendix-windows-event-id-inclusion-recommendation" title="Permanent link">&para;</a></h2>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+<col style="width: 38%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Event ID</strong></th>
+<th><strong>Event Name</strong></th>
+<th><strong>Event Category</strong></th>
+<th><strong>Event Severity</strong></th>
+<th><strong>Recommendation</strong></th>
+<th><strong>Purpose or Reason</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>21</td>
+<td>Remote Desktop Session Logon</td>
+<td>Authentication</td>
+<td>Medium</td>
+<td><p>Sourced from the <em>Remote Desktop/Local Session
+Manager/Operational</em> event log.</p>
+<p>Enable for all systems where Remote Desktop is used or turned on.
+Provides visibility into source IPs for RDP logons, which are not always
+available in standard logon events (e.g. 4624).</p></td>
+<td>Detect unauthorised remote access and support lateral movement
+investigations. Essential for detecting unauthorised access and
+correlating remote activity.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Remote Desktop Session Logoff</td>
+<td>Authentication</td>
+<td>Medium</td>
+<td><p>Sourced from the <em>Remote Desktop/Local Session
+Manager/Operational</em> event log.</p>
+<p>Enable to track the end of RDP sessions. Useful for building session
+timelines and identifying abnormal session durations. Best used in
+combination with Event ID 21.</p></td>
+<td>Understand session flow and timing, useful in correlation with other
+RDP events</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Remote Desktop Session Disconnect</td>
+<td>Authentication</td>
+<td>Medium</td>
+<td><p>Sourced from the <em>Remote Desktop/Local Session
+Manager/Operational</em> event log.</p>
+<p>Enable to track the end of RDP sessions that have not been properly
+terminated. Useful for building session timelines and identifying
+abnormal session durations. Best used in combination with Event ID
+21.</p></td>
+<td>Understand session flow and timing, useful in correlation with other
+RDP events.</td>
+</tr>
+<tr>
+<td>1102</td>
+<td>Security Log Cleared</td>
+<td>Audit Policy</td>
+<td>Critical</td>
+<td>Ingest to detect attempts to evade auditing, as clearing the
+security log may hide malicious activity, critical for forensic
+investigations and compliance with GDPR or national standards. Configure
+DCR to capture this event across all systems.</td>
+<td>Often linked to attacker attempts to erase evidence; monitor for
+correlation with other suspicious events (e.g., 4624, 4672).</td>
+</tr>
+<tr>
+<td>1104</td>
+<td>Security Log Search Failure</td>
+<td>Audit Policy</td>
+<td>High</td>
+<td>Collect to identify potential log tampering or access issues, which
+could indicate attacks or system errors, supporting anomaly detection
+and compliance auditing. Use DCR to ingest this event for all security
+logs.</td>
+<td>Rare in normal operations; investigate promptly to rule out system
+issues or malicious intent.</td>
+</tr>
+<tr>
+<td>1121</td>
+<td>Windows Defender Threat Detected</td>
+<td>Endpoint Security</td>
+<td>Critical</td>
+<td>Include to monitor real-time threat identification by Windows
+Defender, such as malware detection, essential for incident response and
+endpoint security. Configure DCR to collect from
+Microsoft-Windows-Windows Defender/Operational log.</td>
+<td>Includes details like threat name and file path, aiding rapid
+response; high priority for SOC teams.</td>
+</tr>
+<tr>
+<td>1122</td>
+<td>Windows Defender Threat Removed</td>
+<td>Endpoint Security</td>
+<td>High</td>
+<td>Ingest to track remediation efforts, verifying threat resolution by
+Windows Defender, crucial for ensuring endpoint protection and
+compliance. Use DCR to capture from Defender’s operational log.</td>
+<td>Confirms mitigation success; cross-reference with 1121 to validate
+threat lifecycle.</td>
+</tr>
+<tr>
+<td>4103</td>
+<td>PowerShell Command Line Activity</td>
+<td>PowerShell Activity</td>
+<td>Medium</td>
+<td>Collect to capture commands executed via PowerShell. Helps track
+administrative actions or suspicious behaviour. Recommended in
+environments where PowerShell is commonly used for system changes,
+automation, or remote management.</td>
+<td>Useful for detecting unauthorised or risky PowerShell usage,
+including command execution during attacks.</td>
+</tr>
+<tr>
+<td>4104</td>
+<td>PowerShell Script Block Logging</td>
+<td>PowerShell Activity</td>
+<td>High</td>
+<td><p>Collect to view script content during execution. Useful for
+detecting malicious script behaviour.</p>
+<p><em>Note: Be cautious of high volume and potential noise. Filter or
+sample based on investigation needs or use cases.</em></p></td>
+<td>Essential for detecting and analysing malicious scripts, obfuscated
+commands, and living-off-the-land attacks (LOLBins).</td>
+</tr>
+<tr>
+<td>4624</td>
+<td>Successful Logon</td>
+<td>Authentication</td>
+<td>High</td>
+<td>Collect to monitor access patterns and detect unauthorised logins,
+providing critical data for threat hunting and compliance with auditing
+requirements. Configure DCR to ingest for all critical accounts and
+devices.</td>
+<td>Includes logon type (e.g., interactive, remote), useful for
+distinguishing normal vs. suspicious access.</td>
+</tr>
+<tr>
+<td>4625</td>
+<td>Failed Logon</td>
+<td>Authentication</td>
+<td>High</td>
+<td>Include to identify brute-force attacks or credential misuse, as
+failed logins are key indicators of potential threats, supporting
+proactive detection and compliance. Use DCR to capture for all
+accounts.<br />
+Note: Consider lower retention due to high volume</td>
+<td>High volume in busy environments; correlate with 4740 (lockout) for
+attack patterns.</td>
+</tr>
+<tr>
+<td>4627</td>
+<td>Group Membership Information</td>
+<td>Authentication</td>
+<td>Medium</td>
+<td>Ingest to track group memberships during logon, which affect user
+permissions, helping detect privilege misuse and supporting compliance
+audits. Configure DCR to include for high-risk accounts.</td>
+<td>Provides context for 4624; useful for auditing effective permissions
+at logon.</td>
+</tr>
+<tr>
+<td>4634</td>
+<td>Logoff</td>
+<td>Authentication</td>
+<td>Low</td>
+<td><p>Collect selectively to correlate logon/logoff patterns for
+anomaly detection, useful for security but high-volume. Configure DCR to
+ingest only for privileged accounts to balance cost and monitoring
+needs.</p>
+<p>Note: Consider lower retention due to high volume</p></td>
+<td>High volume; filter to reduce noise, focusing on accounts with
+elevated privileges.</td>
+</tr>
+<tr>
+<td>4647</td>
+<td>User-Initiated Logoff</td>
+<td>Authentication</td>
+<td>Low</td>
+<td>Ingest selectively to track user behaviour, as explicit logoffs may
+indicate normal or suspicious activity, but less critical. Configure DCR
+to include for sensitive systems to optimise costs.</td>
+<td>Less frequent than 4634; useful for specific behavioural analytics
+scenarios.</td>
+</tr>
+<tr>
+<td>4648</td>
+<td>Explicit Credential Usage</td>
+<td>Authentication</td>
+<td>High</td>
+<td>Collect to monitor privileged account usage, as explicit credential
+use (e.g., Run As) can indicate misuse, critical for insider threat
+detection and compliance. Use DCR to ingest for administrative
+accounts.</td>
+<td>Often tied to admin actions; monitor for unusual contexts like
+non-admin systems.</td>
+</tr>
+<tr>
+<td>4670</td>
+<td>Permissions Changed</td>
+<td>Access Control</td>
+<td>High</td>
+<td>Ingest to detect unauthorised access modifications, as permission
+changes to objects like files are common attack vectors, supporting
+compliance and security. Configure DCR to capture for critical
+assets.</td>
+<td>Includes object details (e.g., file path), aiding forensic analysis
+of access changes.</td>
+</tr>
+<tr>
+<td>4672</td>
+<td>Security Group Membership Assigned</td>
+<td>Access Control</td>
+<td>High</td>
+<td>Collect to monitor access control changes, as group assignments can
+indicate privilege escalation, essential for security and compliance
+audits. Use DCR to ingest for high-risk groups (e.g.,
+Administrators).</td>
+<td>Common in privilege escalation attacks; monitor alongside 5136 for
+AD context.</td>
+</tr>
+<tr>
+<td>4688</td>
+<td>Process Creation</td>
+<td>System Activity</td>
+<td>Medium</td>
+<td>Ingest selectively to detect malicious processes or lateral
+movement, valuable for security but high-volume. Configure DCR to
+include only processes from critical systems or suspicious users to
+balance cost and threat detection. Consider different <a
+href="#appendix-retention-options">retention options</a> mentioned in
+this guide.<br />
+Note: Consider lower retention due to high volume</td>
+<td>Includes process name and parent process, critical for malware
+analysis; high volume requires filtering.</td>
+</tr>
+<tr>
+<td>4720</td>
+<td>User Account Created</td>
+<td>Account Management</td>
+<td>Critical</td>
+<td>Collect to audit account management and detect unauthorised account
+creation, a common attack tactic, supporting compliance with national
+standards. Configure DCR to ingest domain-wide.</td>
+<td>Often a precursor to privilege escalation; monitor alongside 4722,
+4723.</td>
+</tr>
+<tr>
+<td>4722</td>
+<td>User Account Enabled</td>
+<td>Account Management</td>
+<td>High</td>
+<td>Ingest to track account activation, which could signal unauthorised
+access, supporting security monitoring and compliance audits. Configure
+DCR to capture for account lifecycle management.</td>
+<td>May indicate attack recovery or misuse; verify with account
+history.</td>
+</tr>
+<tr>
+<td>4723</td>
+<td>Password Change Attempt</td>
+<td>Account Management</td>
+<td>High</td>
+<td>Collect to detect unauthorised password changes or insider threats,
+as password change attempts are critical for security. Use DCR to ingest
+for all accounts, especially privileged ones.</td>
+<td>Includes user context; correlate with 4625 for suspicious
+patterns.</td>
+</tr>
+<tr>
+<td>4724</td>
+<td>Password Reset Attempt</td>
+<td>Account Management</td>
+<td>High</td>
+<td>Ingest to monitor administrative actions like password resets, which
+could indicate compromise, supporting compliance and auditing. Configure
+DCR to capture for all accounts.</td>
+<td>Often performed by admins; monitor for unauthorised resets.</td>
+</tr>
+<tr>
+<td>4725</td>
+<td>User Account Disabled</td>
+<td>Account Management</td>
+<td>High</td>
+<td>Collect to track account status changes, useful for detecting
+security responses or attacks, supporting audit trails. Configure DCR to
+ingest for compliance and monitoring.</td>
+<td>May indicate defensive actions; verify context with 4740.</td>
+</tr>
+<tr>
+<td>4726</td>
+<td>User Account Deleted</td>
+<td>Account Management</td>
+<td>Critical</td>
+<td>Ingest to audit account management and detect unauthorised
+deletions, critical for security and compliance. Configure DCR to
+capture for compliance and threat monitoring.</td>
+<td>Rare in normal operations; investigate immediately for potential
+attacks.</td>
+</tr>
+<tr>
+<td>4728</td>
+<td>User Added to Global Group</td>
+<td>Group Management</td>
+<td>High</td>
+<td>Collect to monitor privilege changes, as adding users to global
+groups can indicate escalation risks, supporting security and
+compliance. Use DCR to ingest for sensitive groups.</td>
+<td>Impacts domain-wide access; monitor alongside 4672.</td>
+</tr>
+<tr>
+<td>4729</td>
+<td>User Removed from Global Group</td>
+<td>Group Management</td>
+<td>Medium</td>
+<td>Ingest to audit access control changes, as group removals are
+relevant for compliance and security monitoring. Configure DCR to
+capture for high-risk groups.</td>
+<td>Less critical than additions but useful for audit completeness.</td>
+</tr>
+<tr>
+<td>4732</td>
+<td>User Added to Local Group</td>
+<td>Group Management</td>
+<td>High</td>
+<td>Collect to monitor local privilege changes, a potential attack
+vector, critical for security in sensitive systems. Use DCR to ingest
+for critical systems.</td>
+<td>Impacts system-level access; prioritize for servers and
+endpoints.</td>
+</tr>
+<tr>
+<td>4733</td>
+<td>User Removed from Local Group</td>
+<td>Group Management</td>
+<td>Medium</td>
+<td>Ingest to track permission changes, useful for compliance audits and
+security monitoring. Configure DCR to capture for sensitive groups.</td>
+<td>Supports audit trails; less urgent than additions.</td>
+</tr>
+<tr>
+<td>4738</td>
+<td>User Account Changed</td>
+<td>Account Management</td>
+<td>High</td>
+<td>Collect to detect unauthorised account modifications, such as
+privilege changes, critical for compliance and threat detection.
+Configure DCR to ingest for all accounts.</td>
+<td>Includes attribute changes (e.g., SAM name); monitor for
+anomalies.</td>
+</tr>
+<tr>
+<td>4740</td>
+<td>Account Lockout</td>
+<td>Authentication</td>
+<td>High</td>
+<td>Ingest to identify attack attempts or policy violations, as lockouts
+indicate potential threats, supporting proactive monitoring and
+compliance. Configure DCR to capture for all accounts.</td>
+<td>Correlates with 4625; indicates aggressive attack behaviour.</td>
+</tr>
+<tr>
+<td>4746</td>
+<td>User Added to Domain Group</td>
+<td>Group Management</td>
+<td>High</td>
+<td>Collect to monitor domain-level privilege changes, critical for
+enterprise security and compliance. Use DCR to ingest for high-risk
+groups.</td>
+<td>Impacts enterprise access; similar to 4728 but domain-specific.</td>
+</tr>
+<tr>
+<td>4751</td>
+<td>User Removed from Domain Group</td>
+<td>Group Management</td>
+<td>Medium</td>
+<td>Ingest to audit access changes, as domain group removals are
+relevant for compliance and security. Configure DCR to capture for
+sensitive groups.</td>
+<td>Supports compliance; less critical than additions.</td>
+</tr>
+<tr>
+<td>4752</td>
+<td>User Added to Universal Group</td>
+<td>Group Management</td>
+<td>High</td>
+<td>Collect to track privilege assignments across domains, critical for
+security and compliance monitoring. Use DCR to ingest for high-risk
+groups.</td>
+<td>Affects cross-domain access; monitor for enterprise
+environments.</td>
+</tr>
+<tr>
+<td>4756</td>
+<td>User Added to Universal Group</td>
+<td>Group Management</td>
+<td>High</td>
+<td>Ingest to monitor privilege changes, as universal group additions
+are critical for security and compliance audits. Configure DCR to
+capture for sensitive groups.</td>
+<td>Duplicate functionality with 4752; ensure consistent DCR
+settings.</td>
+</tr>
+<tr>
+<td>4757</td>
+<td>User Removed from Universal Group</td>
+<td>Group Management</td>
+<td>Medium</td>
+<td>Collect to audit permission changes, useful for compliance and
+security monitoring. Configure DCR to ingest for high-risk groups.</td>
+<td>Less critical than additions but completes audit trail.</td>
+</tr>
+<tr>
+<td>4761</td>
+<td>User Added to Domain Group</td>
+<td>Group Management</td>
+<td>High</td>
+<td>Ingest to monitor privilege escalation risks, as domain group
+additions are critical for enterprise security. Configure DCR to capture
+for compliance.</td>
+<td>Overlaps with 4746; ensure DCR avoids redundant ingestion.</td>
+</tr>
+<tr>
+<td>4762</td>
+<td>User Removed from Domain Group</td>
+<td>Group Management</td>
+<td>Medium</td>
+<td>Collect to audit access changes, supporting compliance and security
+monitoring in enterprise environments. Configure DCR to ingest for
+sensitive groups.</td>
+<td>Complements 4751; relevant for large-scale AD environments.</td>
+</tr>
+<tr>
+<td>4767</td>
+<td>User Account Unlocked</td>
+<td>Account Management</td>
+<td>High</td>
+<td>Ingest to monitor administrative actions like account unlocks, which
+could indicate attack recovery, supporting compliance auditing.
+Configure DCR to capture for all accounts.</td>
+<td>Often follows 4740; verify for legitimate admin actions.</td>
+</tr>
+<tr>
+<td>4768</td>
+<td>Kerberos Authentication Ticket Requested</td>
+<td>Authentication</td>
+<td>High</td>
+<td>Collect to track Kerberos logins (TGT requests); essential for
+detecting pass-the-ticket attacks. Use DCR to ingest for domain-joined
+systems.</td>
+<td>Core to AD authentication auditing; detect anomalies in account
+use.</td>
+</tr>
+<tr>
+<td>4769</td>
+<td>Kerberos Service Ticket Requested</td>
+<td>Authentication</td>
+<td>High</td>
+<td>Collect to monitor service ticket requests. Use DCR to collect for
+privilege analysis or service abuse.</td>
+<td>Useful in lateral movement and pass-the-ticket detection.</td>
+</tr>
+<tr>
+<td>4771</td>
+<td>Kerberos Pre-Authentication Failed</td>
+<td>Authentication</td>
+<td>High</td>
+<td>Collect to detect credential attacks or misconfigurations, as failed
+Kerberos attempts are key threat indicators, supporting proactive
+monitoring. Use DCR to ingest for all systems.</td>
+<td>Common in brute-force attacks; includes client details for
+analysis.</td>
+</tr>
+<tr>
+<td>4776</td>
+<td>NTLM Authentication</td>
+<td>Authentication</td>
+<td>High</td>
+<td>Ingest to track NTLM logins (e.g., legacy systems or fallbacks). Use
+with 4624 for context.</td>
+<td>Detect use of weaker authentication protocols or misconfigured
+clients.</td>
+</tr>
+<tr>
+<td>4781</td>
+<td>Account Name Changed</td>
+<td>Account Management</td>
+<td>High</td>
+<td>Ingest to detect unauthorised account modifications, as name changes
+could hide malicious activity, critical for compliance and audits.
+Configure DCR to capture for all accounts.</td>
+<td>Rare in normal use; investigate alongside 4738.</td>
+</tr>
+<tr>
+<td>4798</td>
+<td>User’s Local Group Membership Enumerated</td>
+<td>Reconnaissance</td>
+<td>High</td>
+<td>Collect to detect reconnaissance activities, as group enumeration is
+a common attacker tactic, supporting anomaly detection and threat
+hunting. Use DCR to ingest for security monitoring.</td>
+<td>Indicates pre-attack planning; prioritise for threat hunting
+rules.</td>
+</tr>
+<tr>
+<td>4800</td>
+<td>Workstation Locked</td>
+<td>User Activity</td>
+<td>Low</td>
+<td>Ingest selectively to monitor user behaviour, as workstation locking
+may indicate normal or suspicious activity, but high-volume. Configure
+DCR to capture for privileged users only.</td>
+<td>High volume; focus on admins to reduce ingestion costs.</td>
+</tr>
+<tr>
+<td>4801</td>
+<td>Workstation Unlocked</td>
+<td>User Activity</td>
+<td>Low</td>
+<td>Collect selectively to track user activity, useful but less
+critical, minimising ingestion costs. Configure DCR to ingest for
+sensitive systems only.</td>
+<td>Complements 4800; filter to avoid excessive data.</td>
+</tr>
+<tr>
+<td>4964</td>
+<td>Special Groups Logon</td>
+<td>Authentication</td>
+<td>Critical</td>
+<td>Ingest to track high-privilege access, as special group logons are
+critical for insider threat detection and compliance. Configure DCR to
+capture for all systems.</td>
+<td>Configurable for sensitive groups; high priority for SOC
+monitoring.</td>
+</tr>
+<tr>
+<td>5007</td>
+<td>Windows Defender Configuration Changed</td>
+<td>Endpoint Security</td>
+<td>High</td>
+<td>Collect to monitor endpoint security integrity, as Defender setting
+changes (e.g., exclusions) could indicate compromise, supporting
+compliance. Configure DCR to ingest from Defender’s operational
+log.</td>
+<td>Includes change details; monitor for unauthorised
+modifications.</td>
+</tr>
+<tr>
+<td>5136</td>
+<td>Directory Service Object Modified</td>
+<td>Active Directory</td>
+<td>High</td>
+<td>Ingest to audit Active Directory changes, a common attack target,
+critical for detecting unauthorised modifications and ensuring
+compliance. Configure DCR to capture domain-wide.</td>
+<td>Includes object attributes; key for AD security audits.</td>
+</tr>
+<tr>
+<td>5141</td>
+<td>Directory Service Object Deleted</td>
+<td>Active Directory</td>
+<td>Critical</td>
+<td>Collect to detect unauthorised Active Directory deletions, critical
+for enterprise security and compliance with audit standards. Configure
+DCR to ingest for all AD objects.</td>
+<td>Rare in normal operations; prioritise for immediate
+investigation.</td>
+</tr>
+<tr>
+<td>5136</td>
+<td>A directory service object was modified</td>
+<td>Active Directory</td>
+<td>High</td>
+<td>Ingest to audit Active Directory changes, as modifications to
+objects like users or groups are common attack targets, critical for
+detecting unauthorised changes and ensuring compliance with GDPR or
+national standards. Configure DCR to capture domain-wide.</td>
+<td>Includes details like modified attributes (e.g., group membership,
+user properties); key for AD security audits and compliance
+reporting.</td>
+</tr>
+<tr>
+<td>7045</td>
+<td>New Service Installed</td>
+<td>System Activity</td>
+<td>High</td>
+<td>Ingest to detect potential malware or unauthorised changes, as new
+services are common attack vectors, supporting anomaly detection and
+compliance. Configure DCR to capture for all systems.</td>
+<td>Includes service details; monitor for unauthorised
+installations.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="appendix-windows-event-id-exclusion-recommendation">Appendix: Windows Event ID exclusion recommendation<a class="headerlink" href="#appendix-windows-event-id-exclusion-recommendation" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Event ID</th>
+<th>Even Name</th>
+<th>Event Category</th>
+<th>Event Severity</th>
+<th>Recommendation</th>
+<th>Purpose or Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4802</td>
+<td>Screensaver Invoked</td>
+<td>User Activity</td>
+<td>Informational</td>
+<td>Exclude, as screensaver activation is operational with minimal security relevance, reducing ingestion volume and costs. Configure DCR to filter out this event.</td>
+<td>No threat correlation; purely operational context.</td>
+</tr>
+<tr>
+<td>4803</td>
+<td>Screensaver Dismissed</td>
+<td>User Activity</td>
+<td>Informational</td>
+<td>Exclude, as screensaver dismissal lacks security value and is operational, optimising workspace focus on threats. Configure DCR to filter out this event.</td>
+<td>Minimal value; avoid maintaining cost efficiency.</td>
+</tr>
+<tr>
+<td>6005</td>
+<td>Event Log Service Started</td>
+<td>System Health</td>
+<td>Informational</td>
+<td>Exclude, as event log service startup is operational (e.g., system boot) with minimal security value, optimising ingestion costs. Configure DCR to filter out this event.</td>
+<td>Common during reboots; no direct security relevance.</td>
+</tr>
+<tr>
+<td>6013</td>
+<td>System Health Status</td>
+<td>System Health</td>
+<td>Informational</td>
+<td>Exclude, as system health metrics (e.g., disk space) are operational, not security-related, reducing unnecessary ingestion. Configure DCR to filter out this event.</td>
+<td>Better suited for IT monitoring tools, not Sentinel.</td>
+</tr>
+<tr>
+<td>7036</td>
+<td>Service Start/Stop</td>
+<td>System Activity</td>
+<td>Informational</td>
+<td>Exclude, as service start/stop events are primarily operational, with limited security relevance unless tied to threats, minimising costs. Configure DCR to filter out this event.</td>
+<td>High volume; include only if tied to specific threats (e.g., malware services).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-log-sources">Appendix: Log sources<a class="headerlink" href="#appendix-log-sources" title="Permanent link">&para;</a></h2>
+<h3 id="data-connectors-and-tables">Data Connectors and tables<a class="headerlink" href="#data-connectors-and-tables" title="Permanent link">&para;</a></h3>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 21%" />
+<col style="width: 53%" />
+<col style="width: 9%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;"><p><strong>Data Connector /</strong></p>
+<p><strong>Log Sources</strong></p></th>
+<th style="text-align: center;"><strong>Sentinel Table</strong></th>
+<th style="text-align: center;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Billable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Azure Activity</td>
+<td>AzureActivity</td>
+<td>Azure activity such as creation, modification, deletion of Azure
+resources, policy updates.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Office 365</td>
+<td>OfficeActivity</td>
+<td>Office 365 activity: Exchange, SharePoint, DLP, OneDrive.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Sentinel Health data</td>
+<td>SentinelHealth </td>
+<td>Health data is collected in the SentinelHealth table, which captures
+events that record each time an automation rule is run and the end
+results of those runs.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Azure AD</td>
+<td>AuditLogs</td>
+<td>Azure AD activities audit such as creation/modification of users,
+groups, applications.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Sentinel Audit data</td>
+<td>SentinelAudit</td>
+<td>User activities in Microsoft Sentinel, capturing details about
+changes made to the environment and identifying the users responsible
+for those changes.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>AWS CloudTrail</td>
+<td>AWSCloudTrail</td>
+<td>AWS CloudTrail log entries.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Azure Resources</td>
+<td>AzureDiagnostics</td>
+<td>Storage of diagnostic logs for Azure resources.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Azure Resources</td>
+<td>AzureMetrics</td>
+<td>Provides storage of metrics recorded by various Azure
+resources.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Security Devices</td>
+<td>CommonSecurityLog</td>
+<td>Logs from security devices logging via syslog using Common Event
+Format (CEF).</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Azure AD</td>
+<td>ComputeGroup</td>
+<td>Information on computer group membership.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Microsoft DNS</td>
+<td>DnsEvents</td>
+<td>Microsoft DNS events (registrations, configuration changes).</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Microsoft DNS</td>
+<td>DnsInventory</td>
+<td>DNS logs recording DNS zone details.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Windows Event logs</td>
+<td>Event</td>
+<td>Windows event log entries (excluding security event logs).</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>MMA Agents</td>
+<td>Heartbeat</td>
+<td>Microsoft Monitoring Agent heartbeat.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>MCAS</td>
+<td>MCASShadowITReporting</td>
+<td>MCAS Shadow IT information: records of access to applications
+typically used in "shadow IT".</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Azure Security Center (ASC)</td>
+<td>ProtectionStatus</td>
+<td>Azure Security Center records on endpoint protection solution
+status.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>AS, ASC, MCAS, ATP, ADP</td>
+<td>SecurityAlert</td>
+<td>Alert details (Sentinel, Security Center, MCAS, MDE, ATP, ADP).</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Azure Security Center (ASC)</td>
+<td>SecurityBaseline</td>
+<td>Azure Security Center records related to monitored endpoints vs.
+configured policies.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Azure Security Center (ASC)</td>
+<td>SecurityBaselineSummary</td>
+<td>Azure Security Center records with status of monitored endpoints
+related to compliance.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Microsoft Defender ATP</td>
+<td>SecurityDetection</td>
+<td>Microsoft Defender ATP logs for potential security issues.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Windows Security Event log</td>
+<td>SecurityEvent</td>
+<td>Windows security event logs.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Azure AD</td>
+<td>SigninLogs</td>
+<td>Azure Active Directory sign-in logs.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Syslog-capable devices</td>
+<td>Syslog</td>
+<td>Logs from syslog devices.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Various TI sources</td>
+<td>ThreatIntelligenceIndicator</td>
+<td>Used for ingestion of threat intel data from supported providers
+(MISP, MineMeld, etc.).</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Microsoft Firewall Logs</td>
+<td>WindowsFirewall</td>
+<td>Microsoft Windows Firewall log entries.</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="log-sources-available-with-microsoft-benefit">Log Sources available with Microsoft Benefit<a class="headerlink" href="#log-sources-available-with-microsoft-benefit" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Log Source</strong></th>
+<th>Connector</th>
+<th><strong>License</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Azure activity Logs</td>
+<td>Azure Activity Connector</td>
+<td>No Charge</td>
+</tr>
+<tr>
+<td>Office 365 Audit Logs</td>
+<td>Office 365 Connector</td>
+<td>No Charge</td>
+</tr>
+<tr>
+<td>Alerts from Microsoft Defender for Cloud</td>
+<td>Microsoft Defender for Cloud Connector</td>
+<td>E5</td>
+</tr>
+<tr>
+<td>Alerts from Microsoft 365 Defender</td>
+<td>Microsoft Defender XDR Connector</td>
+<td>E5</td>
+</tr>
+<tr>
+<td>Alerts from Microsoft 365 Defender for Office 365</td>
+<td>Microsoft Defender XDR Connector</td>
+<td>E5</td>
+</tr>
+<tr>
+<td>Alerts from Microsoft Defender for Identity</td>
+<td>Microsoft Defender XDR Connector</td>
+<td>E5</td>
+</tr>
+<tr>
+<td>Alerts from Microsoft Defender for Endpoint</td>
+<td>Microsoft Defender XDR Connector</td>
+<td>E5</td>
+</tr>
+<tr>
+<td>Alerts from Microsoft Defender for Cloud Apps</td>
+<td>Microsoft Defender XDR Connector</td>
+<td>E5</td>
+</tr>
+</tbody>
+</table>
+<h3 id="non-billable-data-sentinel">Non-Billable Data -- Sentinel<a class="headerlink" href="#non-billable-data-sentinel" title="Permanent link">&para;</a></h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 15%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;"><strong>Data Connector</strong></th>
+<th style="text-align: center;">Log Type</th>
+<th style="text-align: center;"><strong>Detail</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Azure Activity</td>
+<td>Log Only</td>
+<td>The Azure Activity Log provides insights into subscription-level
+events, including Azure Resource Manager operations, service health,
+resource write operations, and activity status.</td>
+</tr>
+<tr>
+<td>Microsoft 365 (formerly, Office 365)</td>
+<td>Logs Only</td>
+<td><p>The Office 365 activity log connector offers insights into user
+activities like file downloads and access requests. Integrating these
+logs with Microsoft Sentinel allows for dashboards, custom alerts, and
+improved investigations.</p>
+<p>This includes SharePoint activity and Exchange only admin
+activity</p></td>
+</tr>
+<tr>
+<td>Microsoft Defender XDR</td>
+<td>Incident and Alerts</td>
+<td>Microsoft Defender XDR is a unified enterprise defence suite that
+provides integrated protection against sophisticated attacks across
+endpoints, identities, email, and applications. It helps detect,
+prevent, investigate, and respond to threats effectively.</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="non-billable-data-microsoft-365-e5-customers">Non-Billable Data -- Microsoft 365 E5 customers<a class="headerlink" href="#non-billable-data-microsoft-365-e5-customers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Data Connector</strong></th>
+<th>Log Type</th>
+<th><strong>Detail</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microsoft Entra ID</td>
+<td>Sign-in and audit logs</td>
+<td>Audit logs in Microsoft Entra ID provide access to system activity records, often needed for compliance.</td>
+</tr>
+<tr>
+<td>Microsoft 365 advanced hunting data</td>
+<td>Logs Only</td>
+<td>Advanced hunting in the unified portal allows client to view and query all data from Microsoft Defender XDR.</td>
+</tr>
+<tr>
+<td>Microsoft Purview Information Protection</td>
+<td>Logs Only</td>
+<td>Microsoft Purview Information Protection provides discovery and protection of sensitive data across</td>
+</tr>
+</tbody>
+</table>
+<h3 id="billable-data-sentinel">Billable Data -- Sentinel<a class="headerlink" href="#billable-data-sentinel" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Data Connector</strong></th>
+<th>Log Type</th>
+<th><strong>Detail</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microsoft Entra ID</td>
+<td>Sign-in and audit logs</td>
+<td>Audit logs in Microsoft Entra ID provide access to system activity records, often needed for compliance.</td>
+</tr>
+<tr>
+<td>Microsoft 365 advanced hunting data</td>
+<td>Logs Only</td>
+<td>Advanced hunting in the unified portal allows client to view and query all data from Microsoft Defender XDR.</td>
+</tr>
+<tr>
+<td>Microsoft Purview Information Protection</td>
+<td>Logs Only</td>
+<td>Microsoft Purview Information Protection provides discovery and protection of sensitive data across</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-sentinel-pricing-tiers">Appendix: Sentinel Pricing Tiers<a class="headerlink" href="#appendix-sentinel-pricing-tiers" title="Permanent link">&para;</a></h2>
+<p>Microsoft Sentinel offers various pricing commitment tiers to cater to
+different client needs. When client choose a Commitment tier, they are
+charged a fixed fee based on that tier, which helps them anticipate and
+manage the total costs for Microsoft Sentinel. These tiers also offer
+discounts compared to the Pay-As-You-Go pricing model. Client has the
+option to cancel the commitment tier at any time after the initial
+31-day commitment period.</p>
+<table>
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;"><strong>Tiers</strong></th>
+<th style="text-align: center;">Savings Over Pay-As-You-Go</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><ul>
+<li><p>Pay-As-You-Go</p></li>
+</ul></td>
+<td><ul>
+<li><p>N/A</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>100 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>33%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>200 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>38%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>300 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>39%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>400 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>41%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>500 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>43%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>1,000 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>44%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>2,000 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>46%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>5,000 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>48%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>10,000 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>49%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>25,000 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>51%</p></li>
+</ul></td>
+</tr>
+<tr>
+<td><ul>
+<li><p>50,000 GB per day</p></li>
+</ul></td>
+<td><ul>
+<li><p>53%</p></li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+
+<p>For updated Microsoft Sentinel tier pricing, please visit <a href="https://azure.microsoft.com/en-au/pricing/details/microsoft-sentinel/?msockid=2f24c57aa52c616530cfd17fa4bc60bb">Microsoft
+Sentinel Pricing | Microsoft
+Azure</a></p>
+<h2 id="appendix-retention-options">Appendix: Retention options<a class="headerlink" href="#appendix-retention-options" title="Permanent link">&para;</a></h2>
+<p>Microsoft Sentinel offers flexible log retention options that allow
+organisations to manage how long log data is stored in the Log Analytics
+workspace. These options support compliance, cost efficiency, and the
+operational needs of security teams. By understanding the different
+retention policies available, organisations can configure Sentinel to
+store logs in a way that balances cost, performance, and regulatory
+requirements. Below are the retention options provided by Microsoft
+Sentinel:</p>
+<p><strong>Default retention</strong>: By default, logs are retained for 30 days in the
+Log Analytics workspace. This period ensures that security teams have
+access to recent data for real-time threat detection and incident
+response.</p>
+<p><strong>90 days free retention:</strong> Microsoft Sentinel offers 90 days of free
+retention for data stored in the Log Analytics workspace. By default,
+the Usage and Azure Activity tables keep data for at least 90 days at no
+charge. When you increase the workspace retention to more than 90 days,
+you also increase the retention of these tables. These tables are also
+free from data ingestion charges.</p>
+<p><strong>Extended retention</strong>: For organisations needing to retain logs for
+longer periods (beyond the default 30 days), Sentinel allows extended
+retention options. Extended retention can be configured in increments up
+to 730 days (2 years). This is essential for compliance with regulations
+that require storing data for longer durations, such as GDPR, HIPAA, or
+other industry-specific standards.</p>
+<p><strong>Custom retention policies</strong>: Sentinel also supports the creation of
+custom retention policies that allow organisations to fine-tune their
+log retention based on data types, such as security logs, operational
+logs, or compliance-related logs. Custom retention settings can be
+applied across different data sources, ensuring that logs critical to
+security and compliance are retained for longer periods, while others
+may be deleted sooner.</p>
+<p><strong>Archive retention</strong>: For even longer-term retention, Sentinel offers
+the option to archive data. Archived logs are stored in a lower-cost
+storage tier, and although they remain available for querying, accessing
+archived data incurs additional costs. Archiving is ideal for
+organisations that need to comply with retention regulations but do not
+require frequent access to older logs.</p>
+<p><strong>Retention for regulatory compliance</strong>: For certain industries,
+Sentinel allows for the configuration of retention policies specifically
+designed to meet regulatory requirements. Compliance-driven retention
+ensures that organisations can demonstrate adherence to industry
+standards while minimising unnecessary storage costs.</p>
+<p><strong>Data retention</strong>: Logs that exceed the retention policy are
+automatically deleted, reducing the storage footprint and ensuring that
+only relevant and compliant data is stored. Organisations can also
+configure data deletion to happen manually or after a certain retention
+period expires, offering flexibility in how data is managed.</p>
+<h2 id="appendix-knowledge-base">Appendix: Knowledge base<a class="headerlink" href="#appendix-knowledge-base" title="Permanent link">&para;</a></h2>
+<p>Microsoft has explained the Sentinel related log management in more
+detail.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Topic</strong></th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://docs.azure.cn/en-us/sentinel/best-practices-data">Best practices for data collection in Microsoft Sentinel</a></td>
+<td>Microsoft data collection practices.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/kusto/query/best-practices?view=microsoft-sentinel&amp;preserve-view=true&amp;toc=%2Fazure%2Fsentinel%2FTOC.json&amp;bc=%2Fazure%2Fsentinel%2Fbreadcrumb%2Ftoc.json">Best practices for Kusto Query Language queries</a></td>
+<td>KQL best practices.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-retention-configure?toc=%2Fazure%2Fsentinel%2FTOC.json&amp;bc=%2Fazure%2Fsentinel%2Fbreadcrumb%2Ftoc.json&amp;view=microsoft-sentinel&amp;tabs=portal-3%2Cportal-1%2Cportal-2">Manage data retention in a Log Analytics workspace - Azure Monitor</a></td>
+<td>Data retention management.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-national-and-qg-guidelines">Appendix: National and QG guidelines<a class="headerlink" href="#appendix-national-and-qg-guidelines" title="Permanent link">&para;</a></h2>
+<p>ACSC and Queensland government have defined some general guidelines
+related to information and log management.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Topic</strong></th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.forgov.qld.gov.au/information-and-communication-technology/qgea-directions-and-guidance/qgea-policies-standards-and-guidelines/information-security-policy-is18?utm_source=chatgpt.com">QG Information and cyber security policy (IS18)</a></td>
+<td>Queensland government guidance to improve the protection of services.</td>
+</tr>
+<tr>
+<td><a href="https://www.forgov.qld.gov.au/information-and-communication-technology/qgea-directions-and-guidance/qgea-policies-standards-and-guidelines/cloud-strategy?utm_source=chatgpt.com">QG Cloud strategy</a></td>
+<td>Queensland government cloud adoption strategy.</td>
+</tr>
+<tr>
+<td><a href="https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/system-monitoring/windows-event-logging-and-forwarding">ASD Windows event logging and forwarding</a></td>
+<td>Guidance released by Australian Signals Directorate (ASD).</td>
+</tr>
+<tr>
+<td><a href="https://www.cyber.gov.au/sites/default/files/2025-03/Best%20practices%20for%20event%20logging%20and%20threat%20detection%20%28August%202024%29.pdf">ACSC Best practices for event logging and threat detection</a></td>
+<td>ACSC best practices for log management to mitigate cyberthreats.</td>
+</tr>
+<tr>
+<td><a href="https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/system-monitoring/implementing-siem-and-soar-platforms/priority-logs-for-siem-ingestion-practitioner-guidance">ASD Priority logs for SIEM ingestion: Practitioner guidance</a></td>
+<td>ASD guidance for log ingestion into SIEM solution.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Queensland Government
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="CyberDefenceCentre@cyber.qld.gov.au" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M64 112c-8.8 0-16 7.2-16 16v22.1l172.5 141.6c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16zM48 212.2V384c0 8.8 7.2 16 16 16h384c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0zM0 128c0-35.3 28.7-64 64-64h384c35.3 0 64 28.7 64 64v256c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.indexes", "navigation.tracking", "navigation.sections"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>
